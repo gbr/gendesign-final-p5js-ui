@@ -1,0 +1,7 @@
+
+.vscode/settings.json
+images/.DS_Store
+*.jpg
+images/rename.sh
+images/rename_2.sh
+jsconfig.json
