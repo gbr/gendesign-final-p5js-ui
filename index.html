@@ -20,19 +20,29 @@
         <option value="spotify">Spotify</option>
       </select>
 
-      <div class="algorithmSelection" id="algoDropdown" style="display: none;">
+      <div id="algoDropdown" style="display: none;">
         <label for="algorithmSelect">Select Algorithm:</label>
         <select id="algorithmSelect">
           <option value="" disabled selected>Select an Algorithm</option>
-          <option value="algo1">Algorithm 1</option>
-          <option value="algo2">Algorithm 2</option>
+          <!-- Unsplash Algorithms -->
+          <option value="binPacking">Bin Packing</option>
+          <option value="centerImage">Center Image</option>
+          <option value="domeAperture">Dome Aperture</option>
+          <option value="filledBlades">Filled Blades Aperture</option>
+
+          <!-- Spotify Algorithms -->
+          <option value="duotone">Duotone</option>
+          <option value="slice">Slice</option>
+          <option value="vinylVisualizer">Vinyl Visualizer</option>
+          <option value="yearEndViewer">Year End Viewer</option>
         </select>
       </div>
 
       <button id="visualizeBtn" style="display: none;">Visualize</button>
     </div>
+  </div>
 
-    <div id="canvasContainer"></div>
+  <!-- <div id="canvasContainer"></div> -->
   </div>
 
   <script
@@ -43,6 +53,18 @@
   <script src="libraries/p5.min.js"></script>
   <script src="libraries/p5.sound.min.js"></script>
   <script src='libraries/packer.growing.js'></script>
+
+  <script src="spotify/sketch_duotone.js"></script>
+  <script src="spotify/sketch_slice.js"></script>
+  <script src="spotify/sketch_vinyl.js"></script>
+  <script src="spotify/sketch_year_end.js"></script>
+
+  <script src="unsplash/sketch_bin_packing.js"></script>
+  <script src="unsplash/sketch_center_image.js"></script>
+  <script src="unsplash/sketch_dome_aperture.js"></script>
+  <script src="unsplash/sketch_fill_blades.js"></script>
+
+  <script src="sketch.js"></script>
 </body>
 
 </html>

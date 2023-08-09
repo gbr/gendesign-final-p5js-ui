@@ -1,69 +1,100 @@
-let DEBUG_MODE = false; // Set to false to turn off debugging
-const IMAGE_PATH = 'album_cover-6.jpeg';
-const MAX_SLICES = 35; // Maximum number of slices to generate
-let img;
+function visualize() {
+  console.log('visualize is running');
+  let api = document.getElementById('apiSelect').value;
+  let algorithm = document.getElementById('algorithmSelect').value;
 
-function preload() {
-  // Preload the image for synchronous loading
-  img = loadImage(IMAGE_PATH);
-}
-
-function setup() {
-  createCanvas(800, 800);
-  noLoop(); // Ensure p5.js doesn't continuously loop
-
-  let colorThief = new ColorThief();
-  let dominantColor = colorThief.getColor(img.canvas);
-
-  background(`rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`); // Set background to dominant color
-  // background(255);
-  // background(0);
-
-  let slices = generateSlices(img, MAX_SLICES);
-  let packedSlices = packSlices(slices);
-
-  displaySlices(packedSlices);
-}
-
-function generateSlices(img, numSlices) {
-  let slices = [];
-  for (let i = 0; i < numSlices; i++) {
-    let aspectRatio = random(0.5, 2); // Random aspect ratio between 0.5 and 2
-    let width = random(100, 300); // Adjust the width range
-    let height = width / aspectRatio;
-
-    let x = random(0, img.width - width);
-    let y = random(0, img.height - height);
-
-    slices.push({
-      x: x,
-      y: y,
-      w: width,
-      h: height
-    });
+  // Remove existing canvas
+  if (window.canvas) {
+    window.canvas.remove();
   }
-  return slices;
+
+  switch (api) {
+    case 'unsplash':
+      switch (algorithm) {
+        case 'binPacking':
+          executeBinPacking();
+          break;
+        case 'centerImage':
+          executeCenterImageAperture();
+          break;
+        case 'domeAperture':
+          executeDomeAperture();
+          break;
+        case 'filledBlades':
+          executeFilledBladeAperture();
+          break;
+      }
+      break;
+    case 'spotify':
+      switch (algorithm) {
+        case 'duotone':
+          executeDuotone();
+          break;
+        case 'slice':
+          executeSlice();
+          break;
+        case 'vinylVisualizer':
+          executeRecordViewer();
+          break;
+        case 'yearEndViewer':
+          executeYearEndViewer();
+          break;
+      }
+      break;
+  }
 }
 
-function packSlices(slices) {
-  let packer = new GrowingPacker();
-  packer.fit(slices);
-  return slices.filter(slice => slice.fit);
-}
+function setup() {}
 
-function displaySlices(packedSlices) {
-  packedSlices.forEach(slice => {
-    // Extract the image slice
-    let imgSlice = img.get(slice.x, slice.y, slice.w, slice.h);
-    
-    // Display the image slice on the canvas
-    image(imgSlice, slice.fit.x, slice.fit.y, slice.w, slice.h);
+// add event listener for when the window loads to reset the selection for all dropdowns
+window.addEventListener('load', function () {
+  document.getElementById('apiSelect').selectedIndex = 0;
+  document.getElementById('algoDropdown').style.display = 'none';
+  document.getElementById('visualizeBtn').style.display = 'none';
+});
 
-    if (DEBUG_MODE) {
-      // Debugging: Draw an outline around each slice
-      noFill();
-      stroke(255, 0, 0); // Red outline
-      rect(slice.fit.x, slice.fit.y, slice.w, slice.h);
-    }
+document.getElementById('apiSelect').addEventListener('change', function () {
+  let api = document.getElementById('apiSelect').value;
+  let algorithmSelect = document.getElementById('algorithmSelect');
+
+  // Clear existing options
+  algorithmSelect.innerHTML =
+    '<option value="" disabled selected>Select an Algorithm</option>';
+
+  let options = [];
+
+  if (api === 'unsplash') {
+    options = [
+      { value: 'binPacking', text: 'Bin Packing' },
+      { value: 'centerImage', text: 'Center Image' },
+      { value: 'domeAperture', text: 'Dome Aperture' },
+      { value: 'filledBlades', text: 'Filled Blades Aperture' },
+    ];
+  } else if (api === 'spotify') {
+    options = [
+      { value: 'duotone', text: 'Duotone' },
+      { value: 'slice', text: 'Slice' },
+      { value: 'vinylVisualizer', text: 'Vinyl Visualizer' },
+      { value: 'yearEndViewer', text: 'Year End Viewer' },
+    ];
+  }
+
+  options.forEach((opt) => {
+    let option = document.createElement('option');
+    option.value = opt.value;
+    option.textContent = opt.text;
+    algorithmSelect.appendChild(option);
   });
-}
+
+  // Display the algorithm dropdown
+  document.getElementById('algoDropdown').style.display = 'block';
+});
+
+document
+  .getElementById('algorithmSelect')
+  .addEventListener('change', function () {
+    // Display the visualize button when an algorithm is selected
+    document.getElementById('visualizeBtn').style.display = 'block';
+  });
+
+document.getElementById('visualizeBtn').addEventListener('click', visualize);
