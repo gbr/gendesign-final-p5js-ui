@@ -2,12 +2,38 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generative Art Tool</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-  <title>Sketch</title>
+<body>
+  <div class="container">
+    <h1>Generative Art Tool</h1>
 
-  <link rel="stylesheet" type="text/css" href="style.css">
+    <div class="settings">
+      <label for="apiSelect">Select API:</label>
+      <select id="apiSelect">
+        <option value="" disabled selected>Select an API</option>
+        <option value="unsplash">Unsplash</option>
+        <option value="spotify">Spotify</option>
+      </select>
+
+      <div class="algorithmSelection" id="algoDropdown" style="display: none;">
+        <label for="algorithmSelect">Select Algorithm:</label>
+        <select id="algorithmSelect">
+          <option value="" disabled selected>Select an Algorithm</option>
+          <option value="algo1">Algorithm 1</option>
+          <option value="algo2">Algorithm 2</option>
+        </select>
+      </div>
+
+      <button id="visualizeBtn" style="display: none;">Visualize</button>
+    </div>
+
+    <div id="canvasContainer"></div>
+  </div>
 
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.2/chroma.min.js"></script>
@@ -17,10 +43,6 @@
   <script src="libraries/p5.min.js"></script>
   <script src="libraries/p5.sound.min.js"></script>
   <script src='libraries/packer.growing.js'></script>
-</head>
-
-<body>
-  <script src="sketch.js"></script>
 </body>
 
 </html>
